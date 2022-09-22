@@ -1,7 +1,8 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { RootStore } from "../../../Redux/store"
+import { RootState } from "../../../Redux/store"
 
 interface Todos {
+    [x: string]: any;
     todos: []
     totalCount: number
     totalPage: number
@@ -10,9 +11,9 @@ interface Todos {
 const initialTodoState: Todos = {
     todos: [],
     totalCount: 0,
-    totalPage:0
+    totalPage: 0,
+    singleEntity: null
 };
-
 
 const TodosSlice = createSlice({
     name: "TodosName",
@@ -27,19 +28,21 @@ const TodosSlice = createSlice({
         },
 
         //all Todos Other Page
-        setOtherTodos: (state, actions) => {
-            const { todos }: Todos = actions.payload;
+        setOtherTodos: (state, actions: PayloadAction<Todos>) => {
+            const { todos } = actions.payload;
             state.todos = todos;
         },
 
-        // //created todo response
-        // createdResponse:(state, actions) => {
-        //     const { createdTodos } = actions.payload;
-        //     state.singleEntity = createdTodos;
-        // }
+        //created todo response
+        createdResponse:(state, actions: PayloadAction<Todos>) => {
+            const { singleEntity } = actions.payload;
+            state.singleEntity = singleEntity;
+        },
     }
 })
 
-// export const selectCount = (state: RootStore) => state.TodosName.value
+export const { setTodos, setOtherTodos, createdResponse } = TodosSlice.actions
+
+export const selectTodos = (state: RootState) => state.todosListInformation.value
 
 export default TodosSlice;

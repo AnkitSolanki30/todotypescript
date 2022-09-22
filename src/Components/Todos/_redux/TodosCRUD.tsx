@@ -33,6 +33,5 @@ export function deleteTodo(id: number) {
 
 //Edit Todo
 export function editTodo(editData: Data, id: number) {
-    console.log(id, editData);
     return instance.put(`${window.$BASE_URL}${todos_URL}/${id}`, editData);
 }

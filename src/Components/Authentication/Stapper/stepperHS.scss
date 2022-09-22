@@ -1,0 +1,47 @@
+.falana {
+    
+    // container
+    .StepMain-0-2-3 {
+        flex-direction: inherit;
+    }
+    
+    #RFS-Connector {
+        display: none;
+    }
+
+    //buttons
+    .StepButton-d2-0-2-8,
+    .StepButton-d6-0-2-18,
+    .StepButton-d10-0-2-32 {
+        padding: 15px;
+    }
+
+    .StepButton-d2-0-2-8.completed,
+    .StepButton-d6-0-2-18.completed,
+    .StepButton-d10-0-2-32.completed {
+        &:hover {
+            background-color: #008000;
+        }
+
+        background-color: #008000;
+    }
+
+    
+    .StepButton-d2-0-2-8.active,
+    .StepButton-d6-0-2-18.active,
+    .StepButton-d10-0-2-32.active {
+        &:hover {
+            background-color: blue;
+        }
+        background-color: blue;
+    }
+    
+    //label
+    .Label-d3-0-2-15,
+    .Label-d7-0-2-29,
+    .Label-d11-0-2-41 {
+        margin-top: 0px;
+        text-align: left;
+        padding-left: 10px;
+    }
+}

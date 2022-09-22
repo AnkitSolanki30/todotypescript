@@ -2,9 +2,8 @@ import React, { useRef, useState, useEffect } from 'react'
 import { Todo } from '../../module/model';
 import { AiFillEdit, AiFillDelete } from "react-icons/ai";
 import { MdDone } from "react-icons/md"
-import { useDispatch } from "react-redux";
 import * as action from './_redux/TodosAction'
-
+import { useAppDispatch } from '../../Redux/hooks'
 
 interface Props {
     todo: Todo;
@@ -14,27 +13,40 @@ interface Props {
 
 const SingleTodo = ({ todo, todos, setTodos }: Props) => {
 
-    const dispatch = useDispatch()
+    const dispatch = useAppDispatch()
     const [edit, setEdit] = useState<boolean>(false)
     const [editTodo, setEditTodo] = useState<string>(todo.content)
+    const [checkedStatus, setCheckedStatus] = useState<boolean>(todo.checked)
 
 
     const handleDone = (id: number) => {
-        setTodos(todos.map((todo) => todo._id === id ? { ...todo, checked: !todo.checked } : todo))
-    }
-
-    const handleDelete = (id: number) => {
-        setTodos(todos.filter((todo) => todo._id !== id))
-    }
-
-    const handleEdit = (e: React.FormEvent, id: number) => {
-        console.log(id);
+        setTodos(todos.map((todo) => todo._id === id ? { ...todo, checked: !checkedStatus } : todo))
         let content = editTodo;
-            let checked = todo.checked;
+        if (checkedStatus) {
+            let checked = false;
+            let data  = { content, checked };
+            dispatch(action.editTodos(data, id));
+            setCheckedStatus(!checkedStatus);
+        } else {
+            let checked = true;
             let data = { content, checked };
             dispatch(action.editTodos(data, id));
+            setCheckedStatus(!checkedStatus);
+        }
+    }
+
+    const handleDelete = async (id: number) => {
+        setTodos(todos.filter((todo) => todo._id !== id))
+        await dispatch(action.deleteTodos(id));
+    }
+
+    const handleEdit = async (e: React.FormEvent, id: number) => {
         e.preventDefault();
-        // setTodos(todos.map((todo) => (todo._id === id? {...todo, todo: editTodo} : todo)))
+        setTodos(todos.map((todo) => (todo._id === id? {...todo, content: editTodo} : todo)))
+        let content = editTodo;
+        let checked = checkedStatus;
+        let data = { content, checked };
+        await dispatch(action.editTodos(data, id));
         setEdit(false)
     }
 

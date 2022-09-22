@@ -1,0 +1,47 @@
+const handlesubmit = async () => {
+    const data: addCompany = {
+      name: company,
+      address: {
+        line1: address,
+        city: city,
+        state: state,
+        pincode: zipcode,
+      },
+      type: companyType,
+      domain: domain,
+      admin: {
+        firstName: firstName,
+        lastName: lastName,
+        email: email,
+      },
+    };
+    let validate: Boolean = validationFunctions.checkFormValidity(
+      data,
+      validations
+    );
+    if (!validate) {
+      setShowErrorOff();
+    }
+
+    
+    if (data) {
+      if (data.type === null || data.type === "") {
+        setcompanyTypeValid(true);
+      }
+    }
+    if (companyType && showError) {
+      if (editPage) {
+        try {
+          await dispatch(adminAction.updateCompany(data, id));
+          navigate("/admin/companies");
+        } catch (err) {}
+      } else {
+        try {
+          if (data) {
+            await dispatch(adminAction.postCompany(data));
+            navigate("/admin/companies");
+          }
+        } catch (err) {}
+      }
+    }
+  };

@@ -1,0 +1,178 @@
+ <>
+                {/* Company Detail */}
+                <StandardInput
+                    type="text"
+                    className="input-company-name form-control-icon"
+                    placeholder="New Company L.T.D."
+                    value={company}
+                    label="Company Name"
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                        setcompany(e.target.value)
+                    }
+                    iconClass="company"
+                    showError={showError}
+                    validations={validationsForm.companyName}
+                />
+                <div className="">
+                    <label className="add-company-input">Company Type</label>
+                    <select
+                        className="select-input w-100 input-text fw-bold box-shadow-input"
+                        value={companyType}
+
+                        onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
+                            setCompanyType(e.target.value)
+                        }
+
+                    >
+                        <option value="">--Select Company Type</option>
+                        {data.map((litem: string, index: number) => {
+                            return (
+                                <option key={index} value={litem}>
+                                    {litem}
+                                </option>
+                            );
+                        })}
+                    </select>
+                </div>
+                <StandardInput
+                    type="text"
+                    className="input form-control-icon"
+                    iconClass="domain"
+                    label="Domain"
+                    value={domain}
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                        setDomain(e.target.value)
+                    }
+                    placeholder="Domain Name"
+                    showError={showError}
+                    validations={validationsForm.domain}
+                />
+
+                {/* Admin Detail */}
+                <StandardInput
+                    type="text"
+                    className="input form-control-icon"
+                    value={firstName}
+                    label="First Name"
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                        setFirstName(e.target.value)
+                    }
+                    iconClass=" user"
+                    placeholder="Enter First Name"
+                    showError={showError}
+                    validations={validationsForm.firstName}
+                />
+                <StandardInput
+                    type="text"
+                    className="input form-control-icon"
+                    value={lastName}
+                    label="Last Name"
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                        setLastName(e.target.value)
+                    }
+                    iconClass="user"
+                    placeholder="Enter Last Name"
+                    showError={showError}
+                    validations={validationsForm.lastName}
+                />
+                <StandardInput
+                    type="email"
+                    className="input form-control-icon"
+                    value={email}
+                    label="Email"
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                        setEmail(e.target.value)
+                    }
+                    iconClass=" Email"
+                    placeholder="Enter Email"
+                    showError={showError}
+                    validations={validationsLogin.email}
+                />
+                <StandardInput
+                    value={password}
+                    label="Password"
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                        setPassword(e.target.value)
+                    }
+                    className=""
+                    type="password"
+                    placeholder="Eg. xxxxxxxx"
+                    showError={showError}
+                    validations={validationsLogin.password}
+                />
+
+                {/* Address */}
+                <StandardInput
+                    type="text"
+                    className="input form-control-icon"
+                    value={address}
+                    label="Address"
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                        setAddress(e.target.value)
+                    }
+                    iconClass="flag"
+                    placeholder="Enter Address"
+                    showError={showError}
+                    validations={validationsForm.address}
+                />
+                <div className="d-flex">
+                    <div className="me-auto w-100 pe-2">
+                        <StandardInput
+                            type="text"
+                            className="input form-control-icon"
+                            value={zipcode}
+                            label="Zip code"
+                            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                                setZipcode(e.target.value.replace(/\D/g, ""))
+                            }
+                            iconClass=" ZipCode"
+                            placeholder="Enter Zip Code"
+                            maxLength={5}
+                            showError={showError}
+                            validations={validationsForm.zipCode}
+                        />
+                    </div>
+                    <div className="ms-auto w-100 ps-2">
+                        <StandardInput
+                            type="text"
+                            className="input form-control-icon"
+                            value={city}
+                            label="City"
+                            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                                setCity(e.target.value)
+                            }
+                            iconClass=" City"
+                            placeholder="Enter City"
+                            showError={showError}
+                            validations={validationsForm.city}
+                        />
+                    </div>
+                </div>
+                <StandardInput
+                    type="text"
+                    className="input form-control-icon"
+                    value={state}
+                    label="State"
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                        setState(e.target.value)
+                    }
+                    iconClass=" State"
+                    placeholder="Enter State"
+                    showError={showError}
+                    validations={validationsForm.state}
+                />
+                <StandardInput
+                    type="text"
+                    className="input form-control-icon"
+                    value={country}
+                    label="Country"
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                        setCountry(e.target.value)
+                    }
+                    iconClass=" flag"
+                    placeholder="Enter Country"
+                    showError={showError}
+                    validations={validationsForm.country}
+                />
+                <button className="btn btn-primary mt-3 mb-3" onClick={handleSignup}>Sign Up</button>
+            </>

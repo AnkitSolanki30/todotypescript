@@ -1,60 +1,68 @@
 import React, { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom';
-import { useSelector } from 'react-redux'
-
 import * as action from './_redux/TodosAction'
 import { clearCookie } from '../../Utils/cookieUtils';
 import '../../App.scss'
 import CreateTodo from './CreateTodo';
 import TodoList from './TodoList';
 import { Todo } from '../../module/model';
-import { useDispatch } from "react-redux";
-
-
+import { useAppSelector, useAppDispatch } from '../../Redux/hooks'
 
 const TodosHome = () => {
 
   const navigation = useNavigate();
-  const dispatch = useDispatch()
 
-  const todosData = useSelector(state => state.todosListInformation.todos)
+  // The `state` arg is correctly typed as `RootState` already
+  const todosData = useAppSelector(state => state.todosListInformation.todos)
+  // const todosTotalCount = useAppSelector(state => state.todosListInformation.totalCount)
+  const todosTotalPage = useAppSelector(state => state.todosListInformation.totalPage)
+  const todosSingleEntity = useAppSelector(state => state.todosListInformation.singleEntity)
+  const dispatch = useAppDispatch()
+
   const [todo, setTodo] = useState<string>("")
   const [todos, setTodos] = useState<Todo[]>(todosData)
+  const [pageCount, setPageCount] = useState<number>(1)
 
   const ACCESS_TOKEN = "TodoAccessToken";
 
-  console.log("TodosHome", todos);
-
+  //useEffect for API call
   useEffect(() => {
     getList()
     return () => { };
-  }, [])
+  }, [pageCount])
 
   useEffect(() => {
     setTodos(todosData);
     return () => { };
   }, [todosData])
 
-  // useEffect(() => {
-  //   console.log("useEffect and handleAddTodo");
+  useEffect(() => {
+    if (todosSingleEntity !== null) {
+      let dg = [...todos, todosSingleEntity]
+      setTodos(dg)
+    }
+    return () => { };
+  }, [todosSingleEntity])
 
-  //   return () => { };
-  // }, [])
-
-  const getList = () => {
-    let url = "";
-    dispatch(action.fetchTodos(url));
+  //API cal
+  const getList = async () => {
+    let url = `?&page=${pageCount}&limit=1`;
+    await dispatch(action.fetchTodos(url));
   }
 
-  const handleAddTodo = (e: React.FormEvent) => {
+  //Add New Todo
+  const handleAddTodo = async (e: React.FormEvent) => {
     e.preventDefault();
-
     if (todo) {
-      setTodos([...todos, { _id: Date.now(), content: todo, checked: false }])
+      let content = todo;
+      let checked = false;
+      let data = { content, checked };
+      await dispatch(action.createTodos(data));
       setTodo("")
     }
   }
 
+  //LogOut
   const handleLogout = () => {
     localStorage.removeItem("userName");
     clearCookie(ACCESS_TOKEN);
@@ -66,7 +74,7 @@ const TodosHome = () => {
       <button onClick={handleLogout}>LogOut</button>
       <span className='heading'>todo app</span>
       <CreateTodo todo={todo} setTodo={setTodo} handleAddTodo={handleAddTodo} />
-      <TodoList todos={todos} setTodos={setTodos} />
+      <TodoList todos={todos} setTodos={setTodos} pageCount={pageCount} setPageCount={setPageCount} todosTotalPage={todosTotalPage} />
     </div>
   );
 }
